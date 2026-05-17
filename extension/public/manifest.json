@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCoach",
+  "version": "0.1.0",
+  "description": "Detects when you are stuck on LeetCode and offers hints.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

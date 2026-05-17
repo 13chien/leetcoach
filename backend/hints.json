@@ -1,0 +1,62 @@
+{
+  "two sum": {
+    "pattern": "Hash Map / Dictionary Lookup",
+    "complexity": "Time: O(N), Space: O(N)",
+    "hints": [
+      "Consider iterating through the array. For each number you pick, what is the 'complement' number you need to find to reach the target?",
+      "A brute-force approach would involve checking every possible pair of numbers. What would be the time complexity of such an approach?",
+      "To optimize, think about what information you need to store and how to retrieve it quickly. For each number you process, you need to efficiently check if its complement has been seen before.",
+      "Utilize a hash map (or dictionary) to store numbers you've already encountered along with their indices. This allows for O(1) average time lookups when searching for a complement."
+    ]
+  },
+  "valid parentheses": {
+    "pattern": "Stack, Matching Pairs, LIFO Order",
+    "complexity": "Time: O(N), Space: O(N)",
+    "hints": [
+      "Consider the fundamental rules for valid parentheses: types must match, and the order of closing is crucial. What makes a pair 'valid'?",
+      "As you traverse the string, when you encounter an opening bracket, you'll need to remember it. When you encounter a closing bracket, which specific previously opened bracket should it correspond to?",
+      "The requirement to match the *most recently opened* bracket first (Last-In, First-Out principle) is a strong indicator for a particular data structure. Which common data structure inherently handles this behavior?",
+      "Implement a solution using a stack. For opening brackets, push them. For closing brackets, check if the stack is empty or if the top element is its corresponding opening bracket. What state must the stack be in at the end of processing the entire string for it to be valid?"
+    ]
+  },
+  "best time to buy and sell stock": {
+    "pattern": "Greedy / One-Pass Scan / Prefix Minimum",
+    "complexity": "Time: O(N), Space: O(1)",
+    "hints": [
+      "Consider the simplest approach: iterate through all possible buy days and for each buy day, iterate through all subsequent sell days to calculate profit. What is the time complexity of this approach?",
+      "Can you optimize the process? When you are considering a particular day as a potential 'sell day', what information about the previous days would be most helpful to maximize profit?",
+      "As you traverse the array of prices from left to right, maintain two key pieces of information: the minimum price encountered 'so far' (up to the current day), and the maximum profit found 'so far'.",
+      "For each new price you encounter, first update your 'minimum price so far'. Then, calculate the potential profit if you were to sell on the current day using your 'minimum price so far'. Compare this potential profit with your 'maximum profit so far' and update if necessary. Remember to handle the case where no profit can be made."
+    ]
+  },
+  "contains duplicate": {
+    "pattern": "Array / Hash Table / Sorting",
+    "complexity": "Time: O(n) average, Space: O(n) average",
+    "hints": [
+      "How can you determine if an element in the array has a duplicate? Consider iterating through the array and for each element, checking if it appears anywhere else.",
+      "Instead of comparing each element to every other element (which can be inefficient), think about how sorting the array might help simplify the problem of finding duplicates.",
+      "If you want to achieve better than O(N log N) time complexity, what data structure allows for very fast (average O(1)) lookups to check if an element has been encountered previously?",
+      "Utilize a hash set (or hash map) to store elements as you iterate. For each number, add it to the set if it's not already present. If you try to add a number that's already in the set, what does that tell you?"
+    ]
+  },
+  "maximum subarray": {
+    "pattern": "Dynamic Programming / Greedy (Kadane's Algorithm)",
+    "complexity": "Time: O(N), Space: O(1)",
+    "hints": [
+      "How would you find the sum of *every* possible contiguous subarray? What is the time complexity of that naive approach?",
+      "Instead of finding all possible subarray sums from scratch, can you maintain the maximum sum of a subarray that *ends* at the current position as you iterate through the array?",
+      "For each number `x` in the array, the maximum subarray sum ending at `x` is either `x` itself, or `x` added to the maximum subarray sum ending at the previous element. You need to track this 'current maximum' and also a 'global maximum'.",
+      "Consider how to initialize your `current_max` and `global_max` variables. What if all numbers are negative? Ensure your base cases and updates correctly handle such scenarios."
+    ]
+  },
+  "product of array except self": {
+    "pattern": "Prefix/Suffix Product Pattern",
+    "complexity": "Time: O(n), Space: O(1) (excluding output array)",
+    "hints": [
+      "The constraint 'without using the division operator' is crucial. Instead of dividing out `nums[i]`, consider how to compute the product of elements *before* `nums[i]` and *after* `nums[i]` separately.",
+      "Can you compute an array `left_products` where `left_products[i]` stores the product of all elements to the left of `nums[i]`? Similarly, can you compute `right_products` for elements to the right?",
+      "Once you have `left_products` and `right_products` (or equivalent running totals), how would you combine them to get `answer[i]`? Think about two passes: one left-to-right, one right-to-left.",
+      "To achieve O(1) extra space (excluding the output array itself), first populate your `answer` array with the cumulative products from left-to-right. Then, in a second pass from right-to-left, maintain a running `suffix_product` and multiply it with the values already in `answer[i]`."
+    ]
+  }
+}
