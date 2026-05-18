@@ -1,21 +1,15 @@
 {
   "manifest_version": 3,
-
   "name": "LeetCoach",
-
   "version": "1.0.0",
-
   "description": "AI-powered coding interview coach for LeetCode.",
-
   "permissions": [
     "storage"
   ],
-
   "host_permissions": [
     "https://leetcode.com/*",
-    "http://127.0.0.1:8000/*"
+    "https://leetcoach-ixyj.onrender.com/*"
   ],
-
   "content_scripts": [
     {
       "matches": [
@@ -26,10 +20,8 @@
       ]
     }
   ],
-
   "action": {
     "default_popup": "popup.html",
-
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -37,7 +29,6 @@
       "128": "icons/icon128.png"
     }
   },
-
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

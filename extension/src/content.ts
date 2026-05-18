@@ -59,7 +59,7 @@ function getCodeFromEditor() {
 async function fetchAIHint() {
   const code = getCodeFromEditor();
 
-  const response = await fetch("http://127.0.0.1:8000/hint", {
+  const response = await fetch("https://leetcoach-ixyj.onrender.com/hint", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
