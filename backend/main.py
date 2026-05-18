@@ -43,7 +43,7 @@ def generate_hints_with_gemini(problem_title, problem_text):
     api_key = os.environ["GEMINI_API_KEY"]
 
     prompt = f"""
-Generate coding interview hints for this LeetCode problem.
+Generate coding interview coaching data for this LeetCode problem.
 
 Problem title:
 {problem_title}
@@ -61,10 +61,15 @@ Return ONLY valid JSON:
     "stronger hint",
     "algorithm hint",
     "final hint"
-  ]
+  ],
+  "scaffold": "Java code skeleton with TODO comments. Do not include the full solution."
 }}
 
-Do not reveal the full solution.
+Rules:
+- Do NOT reveal the full solution.
+- Scaffold should guide the user structurally.
+- Scaffold should contain TODO comments.
+- Keep hints concise.
 """
 
     response = requests.post(
@@ -73,12 +78,15 @@ Do not reveal the full solution.
             "contents": [
                 {
                     "parts": [
-                        {"text": prompt}
+                        {
+                            "text": prompt
+                        }
                     ]
                 }
             ]
         },
         timeout=30,
+        verify=False
     )
 
     data = response.json()
@@ -87,7 +95,13 @@ Do not reveal the full solution.
         raise Exception(data["error"])
 
     text = data["candidates"][0]["content"]["parts"][0]["text"]
-    text = text.replace("```json", "").replace("```", "").strip()
+
+    text = (
+        text
+        .replace("```json", "")
+        .replace("```", "")
+        .strip()
+    )
 
     return json.loads(text)
 
@@ -99,16 +113,23 @@ def health():
 
 @app.post("/hint")
 async def generate_hint(req: HintRequest):
+
     cache = load_hints()
+
     title = req.problemTitle.lower().strip()
 
     if title not in cache:
-        if not req.problemText or len(req.problemText.strip()) < 100:
+
+        if (
+            not req.problemText
+            or len(req.problemText.strip()) < 100
+        ):
             return {
                 "hint": "I do not have enough problem context to generate reliable hints yet.",
                 "source": "fallback",
                 "pattern": "Unknown",
-                "complexity": "Unknown"
+                "complexity": "Unknown",
+                "scaffold": ""
             }
 
         print(f"Cache miss. Generating hints for: {title}")
@@ -121,13 +142,18 @@ async def generate_hint(req: HintRequest):
         save_hints(cache)
 
     problem = cache[title]
+
     hints = problem["hints"]
 
-    index = min(req.hintLevel - 1, len(hints) - 1)
+    index = min(
+        req.hintLevel - 1,
+        len(hints) - 1
+    )
 
     return {
         "hint": hints[index],
         "source": "cache",
         "pattern": problem.get("pattern", "Unknown"),
-        "complexity": problem.get("complexity", "Unknown")
+        "complexity": problem.get("complexity", "Unknown"),
+        "scaffold": problem.get("scaffold", "")
     }
